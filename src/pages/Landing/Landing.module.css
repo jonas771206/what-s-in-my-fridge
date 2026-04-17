@@ -1,0 +1,123 @@
+.page {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+.orb1 {
+  width: 380px;
+  height: 380px;
+  background: rgba(196, 148, 50, 0.09);
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: pulse1 7s ease-in-out infinite;
+}
+
+.orb2 {
+  width: 220px;
+  height: 220px;
+  background: rgba(196, 148, 50, 0.06);
+  bottom: 0;
+  left: 5%;
+  animation: pulse2 9s ease-in-out infinite 2s;
+}
+
+.orb3 {
+  width: 180px;
+  height: 180px;
+  background: rgba(196, 148, 50, 0.05);
+  bottom: 20px;
+  right: 5%;
+  animation: pulse2 8s ease-in-out infinite 4s;
+}
+
+@keyframes pulse1 {
+  0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+  50%       { opacity: 1;   transform: translateX(-50%) scale(1.1); }
+}
+
+@keyframes pulse2 {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50%       { opacity: 1;   transform: scale(1.12); }
+}
+
+.hero {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 14px;
+  padding: 48px 24px;
+  max-width: 500px;
+  animation: pageEnter 0.5s var(--spring) forwards;
+}
+
+.logo {
+  width: 200px;
+  height: auto;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 44px;
+  line-height: 1.15;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+  margin-top: 4px;
+}
+
+.subtitle {
+  font-weight: 300;
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.ctas {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ctaPrimary {
+  border: 1px solid rgba(196, 148, 50, 0.55);
+  border-radius: var(--radius-pill);
+  padding: 10px 26px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--gold);
+  background: rgba(196, 148, 50, 0.07);
+  transition: opacity 0.2s ease;
+}
+
+.ctaPrimary:hover { opacity: 0.75; }
+
+.ctaSecondary {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: var(--radius-pill);
+  padding: 10px 26px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  background: transparent;
+  transition: opacity 0.2s ease;
+}
+
+.ctaSecondary:hover { opacity: 0.75; }
