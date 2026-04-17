@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Browse Recipes Page</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #111; font-family: Inter, sans-serif; padding: 32px 24px; }
+  .label { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(196,148,50,0.6); margin-bottom: 14px; }
+  .note { font-size: 11px; color: rgba(255,220,130,0.35); margin-top: 10px; font-family: Inter, sans-serif; line-height: 1.6; }
+
+  /* Page shell */
+  .page {
+    background: #0e0c09;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(196,148,50,0.12);
+  }
+
+  /* Nav */
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 28px;
+    background: rgba(14,12,9,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(196,148,50,0.10);
+  }
+  .nav-logo img { height: 32px; width: auto; }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-link { font-size: 13px; font-weight: 500; color: rgba(255,220,130,0.45); }
+  .nav-link.active { color: #f5e8c8; }
+  .nav-link.active .dot { display: block; width: 4px; height: 4px; border-radius: 50%; background: #C4943A; margin: 3px auto 0; }
+  .dot { display: none; }
+
+  /* Page content */
+  .content { padding: 32px 28px; }
+
+  /* Page heading */
+  .page-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic; font-weight: 400;
+    font-size: 32px; color: #f5e8c8; margin-bottom: 6px;
+  }
+  .page-sub { font-size: 13px; color: rgba(255,220,130,0.45); font-weight: 400; margin-bottom: 24px; }
+
+  /* Search */
+  .search-row { margin-bottom: 18px; }
+  .search-input {
+    width: 100%; background: rgba(196,148,50,0.04);
+    border: 1px solid rgba(196,148,50,0.18);
+    border-radius: 10px; padding: 10px 14px;
+    font-size: 13px; color: rgba(255,220,130,0.55);
+    font-family: Inter, sans-serif; outline: none;
+  }
+  .search-input::placeholder { color: rgba(255,220,130,0.3); }
+
+  /* Filter pills */
+  .filter-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+  .pill {
+    border: 1px solid rgba(196,148,50,0.18);
+    border-radius: 86px; padding: 5px 14px;
+    font-size: 11px; font-weight: 500; color: rgba(255,220,130,0.5);
+    background: transparent; cursor: pointer; transition: all .15s;
+    white-space: nowrap;
+  }
+  .pill.active {
+    border-color: rgba(196,148,50,0.55);
+    background: rgba(196,148,50,0.10);
+    color: #C4943A;
+  }
+  .pill:hover { opacity: .75; }
+
+  /* Recipe grid */
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+  /* Recipe card */
+  .card {
+    background: rgba(196,148,50,0.06);
+    border: 1px solid rgba(196,148,50,0.18);
+    border-radius: 14px; padding: 16px;
+    box-shadow: 0 0 28px rgba(196,148,50,0.07), inset 0 1px 0 rgba(196,148,50,0.10);
+    cursor: pointer; transition: opacity .2s;
+  }
+  .card:hover { opacity: .8; }
+  .card-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; }
+  .card-flag { font-size: 20px; }
+  .badge {
+    font-size: 9px; font-weight: 500; color: #C4943A;
+    background: rgba(196,148,50,0.12); border: 1px solid rgba(196,148,50,0.25);
+    border-radius: 86px; padding: 2px 10px;
+  }
+  .card-name {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic; font-weight: 400;
+    font-size: 15px; color: #f5e8c8; margin-bottom: 5px; line-height: 1.3;
+  }
+  .card-desc { font-size: 10px; color: rgba(255,220,130,0.45); line-height: 1.5; margin-bottom: 12px; }
+  .card-meta { font-size: 9px; color: rgba(255,220,130,0.35); }
+</style>
+</head>
+<body>
+
+<div class="label">Browse Recipes Page</div>
+
+<div class="page">
+  <!-- Nav -->
+  <nav>
+    <div class="nav-logo">
+      <img src="Logo.jpeg" alt="logo" onerror="this.style.cssText='display:none'">
+    </div>
+    <div class="nav-links">
+      <div class="nav-link active">Recipes <div class="dot"></div></div>
+      <div class="nav-link">My Fridge <div class="dot"></div></div>
+    </div>
+  </nav>
+
+  <!-- Content -->
+  <div class="content">
+    <div class="page-title">All Recipes</div>
+    <div class="page-sub">25 dishes across 14 countries</div>
+
+    <!-- Search -->
+    <div class="search-row">
+      <input class="search-input" type="text" placeholder="Search recipes…">
+    </div>
+
+    <!-- Country filters -->
+    <div class="filter-row">
+      <div class="pill active">All</div>
+      <div class="pill">🇨🇳 China</div>
+      <div class="pill">🇫🇷 France</div>
+      <div class="pill">🇬🇷 Greece</div>
+      <div class="pill">🇮🇳 India</div>
+      <div class="pill">🇮🇹 Italy</div>
+      <div class="pill">🇯🇵 Japan</div>
+      <div class="pill">🇲🇦 Morocco</div>
+      <div class="pill">🇲🇽 Mexico</div>
+      <div class="pill">🇹🇭 Thailand</div>
+      <div class="pill">🇺🇸 USA</div>
+    </div>
+
+    <!-- Grid -->
+    <div class="grid">
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-flag">🇮🇳</span>
+          <span class="badge">Medium</span>
+        </div>
+        <div class="card-name">Butter Chicken</div>
+        <div class="card-desc">Rich, creamy tomato sauce with tender chicken and fragrant spices.</div>
+        <div class="card-meta">⏱ 45 min · Indian cuisine</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-flag">🇯🇵</span>
+          <span class="badge">Easy</span>
+        </div>
+        <div class="card-name">Miso Ramen</div>
+        <div class="card-desc">Umami-rich miso broth with springy noodles and soft-boiled egg.</div>
+        <div class="card-meta">⏱ 35 min · Japanese cuisine</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-flag">🇮🇹</span>
+          <span class="badge">Easy</span>
+        </div>
+        <div class="card-name">Spaghetti Carbonara</div>
+        <div class="card-desc">Silky egg and pecorino sauce with crispy guanciale. No cream.</div>
+        <div class="card-meta">⏱ 25 min · Italian cuisine</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-flag">🇫🇷</span>
+          <span class="badge">Hard</span>
+        </div>
+        <div class="card-name">Coq au Vin</div>
+        <div class="card-desc">Slow-braised chicken in red wine with mushrooms and pearl onions.</div>
+        <div class="card-meta">⏱ 90 min · French cuisine</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-flag">🇲🇽</span>
+          <span class="badge">Easy</span>
+        </div>
+        <div class="card-name">Beef Tacos</div>
+        <div class="card-desc">Seasoned ground beef in warm tortillas with fresh salsa and lime.</div>
+        <div class="card-meta">⏱ 20 min · Mexican cuisine</div>
+      </div>
+
+      <div class="card">
+        <div class="card-top">
+          <span class="card-flag">🇹🇭</span>
+          <span class="badge">Medium</span>
+        </div>
+        <div class="card-name">Pad Thai</div>
+        <div class="card-desc">Stir-fried rice noodles with egg, bean sprouts, and peanuts.</div>
+        <div class="card-meta">⏱ 30 min · Thai cuisine</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<p class="note">
+  · Search bar filters recipe names live as you type<br>
+  · Country pills wrap naturally — no cutoff on any screen size<br>
+  · "All" pill highlighted in gold when no filter active; selecting a country highlights that pill instead<br>
+  · Grid collapses to 2-col on tablet, 1-col on mobile
+</p>
+
+</body>
+</html>

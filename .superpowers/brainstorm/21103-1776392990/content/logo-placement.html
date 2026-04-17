@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Logo Placement</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #111; font-family: Inter, sans-serif; padding: 32px 24px; display: flex; flex-direction: column; gap: 40px; }
+  .label { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(196,148,50,0.6); margin-bottom: 12px; }
+  .note { font-size: 11px; color: rgba(255,220,130,0.35); margin-top: 8px; font-family: Inter, sans-serif; }
+
+  /* NAV */
+  .nav-wrap { background: #0e0c09; border-radius: 14px; overflow: hidden; border: 1px solid rgba(196,148,50,0.12); }
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 28px;
+    background: rgba(14,12,9,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(196,148,50,0.10);
+  }
+  .nav-logo img { height: 36px; width: auto; object-fit: contain; }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-link { font-size: 13px; font-weight: 500; color: rgba(255,220,130,0.55); }
+  .nav-link.active { color: #f5e8c8; }
+  .nav-link.active .dot { display: block; width: 4px; height: 4px; border-radius: 50%; background: #C4943A; margin: 3px auto 0; }
+  .dot { display: none; }
+
+  /* LANDING */
+  .landing-wrap {
+    position: relative; background: #0e0c09; border-radius: 14px;
+    overflow: hidden; border: 1px solid rgba(196,148,50,0.12);
+    min-height: 500px; display: flex; align-items: center; justify-content: center;
+  }
+  .orb { position: absolute; border-radius: 50%; filter: blur(80px); }
+  .orb-1 { width: 380px; height: 380px; background: rgba(196,148,50,0.09); top: -100px; left: 50%; transform: translateX(-50%); animation: pulse1 7s ease-in-out infinite; }
+  .orb-2 { width: 220px; height: 220px; background: rgba(196,148,50,0.06); bottom: 0; left: 5%; animation: pulse2 9s ease-in-out infinite 2s; }
+  .orb-3 { width: 180px; height: 180px; background: rgba(196,148,50,0.05); bottom: 20px; right: 5%; animation: pulse2 8s ease-in-out infinite 4s; }
+  @keyframes pulse1 {
+    0%,100% { opacity:.7; transform: translateX(-50%) scale(1); }
+    50% { opacity:1; transform: translateX(-50%) scale(1.1); }
+  }
+  @keyframes pulse2 {
+    0%,100% { opacity:.6; transform: scale(1); }
+    50% { opacity:1; transform: scale(1.12); }
+  }
+  .hero {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; align-items: center; text-align: center;
+    gap: 14px; padding: 48px 32px; max-width: 500px;
+  }
+  .hero-logo { width: 200px; height: auto; }
+  .hero-title {
+    font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 400;
+    font-size: 44px; line-height: 1.15; color: #f5e8c8; letter-spacing: -0.5px; margin-top: 4px;
+  }
+  .hero-sub { font-weight: 300; font-size: 15px; color: rgba(255,220,130,0.50); line-height: 1.6; }
+  .ctas { display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap; justify-content: center; }
+  .cta-gold {
+    border: 1px solid rgba(196,148,50,0.55); border-radius: 86px; padding: 10px 26px;
+    font-size: 13px; font-weight: 500; color: #C4943A;
+    background: rgba(196,148,50,0.07); cursor: pointer; transition: opacity .2s;
+  }
+  .cta-ghost {
+    border: 1px solid rgba(255,255,255,0.14); border-radius: 86px; padding: 10px 26px;
+    font-size: 13px; font-weight: 500; color: rgba(255,220,130,0.55);
+    background: transparent; cursor: pointer; transition: opacity .2s;
+  }
+  .cta-gold:hover, .cta-ghost:hover { opacity: .75; }
+
+  /* Annotation arrows */
+  .annotation {
+    position: absolute; z-index: 10;
+    font-size: 10px; font-weight: 600; font-family: Inter, sans-serif;
+    color: #C4943A; letter-spacing: 0.5px; text-transform: uppercase;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .ann-line { height: 1px; background: rgba(196,148,50,0.5); }
+  .ann-dot { width: 5px; height: 5px; border-radius: 50%; background: #C4943A; flex-shrink:0; }
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <div>
+    <div class="label">Logo in Navigation — top-left</div>
+    <div class="nav-wrap">
+      <nav>
+        <div class="nav-logo">
+          <img src="Logo.jpeg" alt="What's In Your Fridge logo">
+        </div>
+        <div class="nav-links">
+          <div class="nav-link active">Recipes <div class="dot"></div></div>
+          <div class="nav-link">My Fridge <div class="dot"></div></div>
+        </div>
+      </nav>
+    </div>
+    <p class="note">Logo sits top-left at 36px height · links right-aligned · gold dot marks active page</p>
+  </div>
+
+  <!-- LANDING -->
+  <div>
+    <div class="label">Logo in Landing Hero — centred, large</div>
+    <div class="landing-wrap">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+
+      <!-- Annotation: nav hidden -->
+      <div class="annotation" style="top:16px; left:20px;">
+        <div class="ann-dot"></div>
+        <div class="ann-line" style="width:40px;"></div>
+        Nav hidden on this page
+      </div>
+
+      <!-- Annotation: logo -->
+      <div class="annotation" style="top: 96px; right: 20px;">
+        Logo · 200px wide
+        <div class="ann-line" style="width:40px;"></div>
+        <div class="ann-dot"></div>
+      </div>
+
+      <!-- Annotation: CTA -->
+      <div class="annotation" style="bottom: 80px; left: 20px;">
+        <div class="ann-dot"></div>
+        <div class="ann-line" style="width:40px;"></div>
+        Pill CTAs
+      </div>
+
+      <div class="hero">
+        <img class="hero-logo" src="Logo.jpeg" alt="What's In Your Fridge">
+        <div class="hero-title">Discover recipes<br>from what you have.</div>
+        <div class="hero-sub">25 global recipes. No login. Just cook.</div>
+        <div class="ctas">
+          <button class="cta-gold">Browse Recipes</button>
+          <button class="cta-ghost">Open My Fridge</button>
+        </div>
+      </div>
+    </div>
+    <p class="note">Orbs breathe slowly behind the hero · logo is the first thing you see · tagline in italic serif below</p>
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Fridge Page</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #111; font-family: Inter, sans-serif; padding: 32px 24px; display: flex; flex-direction: column; gap: 40px; }
+  .label { font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(196,148,50,0.6); margin-bottom: 14px; }
+  .note { font-size: 11px; color: rgba(255,220,130,0.35); margin-top: 10px; line-height: 1.6; }
+
+  .page { background: #0e0c09; border-radius: 14px; overflow: hidden; border: 1px solid rgba(196,148,50,0.12); }
+
+  nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 28px;
+    background: rgba(14,12,9,0.85); backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(196,148,50,0.10);
+  }
+  .nav-logo img { height: 32px; width: auto; }
+  .nav-links { display: flex; gap: 24px; }
+  .nav-link { font-size: 13px; font-weight: 500; color: rgba(255,220,130,0.45); }
+  .nav-link.active { color: #f5e8c8; }
+  .nav-link.active .dot { display: block; width: 4px; height: 4px; border-radius: 50%; background: #C4943A; margin: 3px auto 0; }
+  .dot { display: none; }
+
+  .content { padding: 32px 28px; }
+
+  .page-title { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-weight: 400; font-size: 32px; color: #f5e8c8; margin-bottom: 6px; }
+  .page-sub { font-size: 13px; color: rgba(255,220,130,0.45); margin-bottom: 28px; }
+
+  /* Category section */
+  .category { margin-bottom: 28px; }
+  .category-label {
+    font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+    color: rgba(196,148,50,0.55); margin-bottom: 12px;
+    padding-bottom: 8px; border-bottom: 1px solid rgba(196,148,50,0.08);
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+
+  /* Ingredient chip */
+  .chip {
+    border: 1px solid rgba(196,148,50,0.18); border-radius: 6px;
+    padding: 6px 14px; font-size: 12px; font-weight: 500;
+    color: rgba(255,220,130,0.55); background: transparent;
+    cursor: pointer; transition: all .15s ease; user-select: none;
+  }
+  .chip:hover { border-color: rgba(196,148,50,0.35); color: rgba(255,220,130,0.8); }
+  .chip.selected {
+    border-color: rgba(196,148,50,0.6); background: rgba(196,148,50,0.12);
+    color: #C4943A; box-shadow: 0 0 10px rgba(196,148,50,0.08);
+  }
+  .chip.meat-selected {
+    border-color: rgba(196,148,50,0.6); background: rgba(196,148,50,0.12);
+    color: #C4943A; box-shadow: 0 0 10px rgba(196,148,50,0.08);
+  }
+
+  /* Cut tray */
+  .cut-tray {
+    margin-top: 10px; padding: 12px 16px;
+    background: rgba(196,148,50,0.03); border: 1px solid rgba(196,148,50,0.12);
+    border-radius: 10px;
+  }
+  .cut-tray-label { font-size: 9px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; color: rgba(196,148,50,0.4); margin-bottom: 8px; }
+  .cut-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+  .cut-chip {
+    border: 1px solid rgba(196,148,50,0.15); border-radius: 6px;
+    padding: 4px 11px; font-size: 11px; font-weight: 500;
+    color: rgba(255,220,130,0.45); background: transparent; cursor: pointer; transition: all .15s;
+  }
+  .cut-chip.selected {
+    border-color: rgba(196,148,50,0.55); background: rgba(196,148,50,0.10); color: #C4943A;
+  }
+  .cut-chip:hover { opacity: .75; }
+
+  /* Bottom bar */
+  .bottom-bar {
+    position: sticky; bottom: 0;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 28px;
+    background: rgba(14,12,9,0.92); backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(196,148,50,0.10);
+    margin-top: 8px;
+  }
+  .selected-count { font-size: 13px; color: rgba(255,220,130,0.5); }
+  .selected-count strong { color: #C4943A; }
+  .find-btn {
+    border: 1px solid rgba(196,148,50,0.55); border-radius: 86px;
+    padding: 10px 28px; font-size: 13px; font-weight: 600;
+    color: #C4943A; background: rgba(196,148,50,0.08);
+    cursor: pointer; transition: opacity .2s;
+  }
+  .find-btn:hover { opacity: .75; }
+
+  /* Results section */
+  .results-section { padding: 0 28px 32px; }
+  .results-title { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 22px; color: #f5e8c8; margin-bottom: 16px; }
+  .results-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+  .result-card {
+    background: rgba(196,148,50,0.06); border: 1px solid rgba(196,148,50,0.18);
+    border-radius: 14px; padding: 16px;
+    box-shadow: 0 0 28px rgba(196,148,50,0.07), inset 0 1px 0 rgba(196,148,50,0.10);
+  }
+  .result-card-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+  .badge { font-size: 9px; font-weight: 500; color: #C4943A; background: rgba(196,148,50,0.12); border: 1px solid rgba(196,148,50,0.25); border-radius: 86px; padding: 2px 10px; }
+  .card-name { font-family: 'Playfair Display', Georgia, serif; font-style: italic; font-size: 14px; color: #f5e8c8; margin-bottom: 4px; }
+  .card-desc { font-size: 10px; color: rgba(255,220,130,0.45); line-height: 1.5; margin-bottom: 12px; }
+  .match-label { font-size: 10px; color: rgba(255,220,130,0.55); margin-bottom: 5px; }
+  .match-label strong { color: #C4943A; }
+  .match-bar-track { width: 100%; height: 3px; background: rgba(196,148,50,0.12); border-radius: 2px; overflow: hidden; }
+  .match-bar-fill { height: 100%; background: linear-gradient(90deg, #C4943A, #e8b84b); border-radius: 2px; }
+</style>
+</head>
+<body>
+
+<!-- FRIDGE STATE: chicken selected, cut tray open, 3 ingredients selected -->
+<div>
+  <div class="label">My Fridge — ingredient selection with cut tray open</div>
+  <div class="page">
+    <nav>
+      <div class="nav-logo"><img src="Logo.jpeg" alt="logo" onerror="this.style.display='none'"></div>
+      <div class="nav-links">
+        <div class="nav-link">Recipes <div class="dot"></div></div>
+        <div class="nav-link active">My Fridge <div class="dot"></div></div>
+      </div>
+    </nav>
+
+    <div class="content">
+      <div class="page-title">My Fridge</div>
+      <div class="page-sub">Select what you have — we'll find matching recipes.</div>
+
+      <!-- Meat & Protein -->
+      <div class="category">
+        <div class="category-label">Meat & Protein</div>
+        <div class="chips">
+          <div class="chip meat-selected">🍗 Chicken ▾</div>
+          <div class="chip">🥩 Beef</div>
+          <div class="chip">🥓 Pork</div>
+          <div class="chip">🐑 Lamb</div>
+          <div class="chip">🐟 Salmon</div>
+          <div class="chip">🦃 Turkey</div>
+          <div class="chip">🧆 Tofu</div>
+          <div class="chip">🥚 Eggs</div>
+          <div class="chip">🦐 Shrimp</div>
+        </div>
+        <!-- Cut tray — opens below entire chip row when Chicken is clicked -->
+        <div class="cut-tray">
+          <div class="cut-tray-label">Chicken — select a cut</div>
+          <div class="cut-chips">
+            <div class="cut-chip selected">Breast</div>
+            <div class="cut-chip">Thigh</div>
+            <div class="cut-chip">Drumstick</div>
+            <div class="cut-chip">Wings</div>
+            <div class="cut-chip">Whole</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Vegetables -->
+      <div class="category">
+        <div class="category-label">Vegetables</div>
+        <div class="chips">
+          <div class="chip selected">🧄 Garlic</div>
+          <div class="chip">🧅 Onion</div>
+          <div class="chip">🍅 Tomato</div>
+          <div class="chip">🥦 Broccoli</div>
+          <div class="chip">🫑 Bell Pepper</div>
+          <div class="chip">🥕 Carrot</div>
+          <div class="chip">🌿 Spinach</div>
+          <div class="chip">🍆 Eggplant</div>
+          <div class="chip">🌽 Corn</div>
+          <div class="chip">🥒 Zucchini</div>
+        </div>
+      </div>
+
+      <!-- Pantry & Dairy -->
+      <div class="category">
+        <div class="category-label">Pantry & Dairy</div>
+        <div class="chips">
+          <div class="chip selected">🥛 Cream</div>
+          <div class="chip">🧈 Butter</div>
+          <div class="chip">🧀 Cheese</div>
+          <div class="chip">🍚 Rice</div>
+          <div class="chip">🍝 Pasta</div>
+          <div class="chip">🥫 Canned Tomatoes</div>
+          <div class="chip">🫙 Olive Oil</div>
+          <div class="chip">🍞 Bread</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sticky bottom bar -->
+    <div class="bottom-bar">
+      <div class="selected-count"><strong>3</strong> ingredients selected</div>
+      <button class="find-btn">Find Recipes →</button>
+    </div>
+  </div>
+  <p class="note">
+    · Clicking a meat chip opens the cut tray below the entire row — all chips stay visible<br>
+    · The small ▾ on "Chicken" signals that cuts are available<br>
+    · Bottom bar is sticky — count and button always visible while scrolling<br>
+    · "Find Recipes" smooth-scrolls down to results
+  </p>
+</div>
+
+<!-- RESULTS STATE -->
+<div>
+  <div class="label">My Fridge — after clicking "Find Recipes"</div>
+  <div class="page">
+    <nav>
+      <div class="nav-logo"><img src="Logo.jpeg" alt="logo" onerror="this.style.display='none'"></div>
+      <div class="nav-links">
+        <div class="nav-link">Recipes <div class="dot"></div></div>
+        <div class="nav-link active">My Fridge <div class="dot"></div></div>
+      </div>
+    </nav>
+
+    <div class="results-section" style="padding-top: 28px;">
+      <div class="results-title">Recipes you can make</div>
+      <div class="results-grid">
+
+        <div class="result-card">
+          <div class="result-card-top">
+            <span style="font-size:18px;">🇮🇳</span>
+            <span class="badge">Medium</span>
+          </div>
+          <div class="card-name">Butter Chicken</div>
+          <div class="card-desc">Rich, creamy tomato sauce with tender chicken.</div>
+          <div class="match-label">You have <strong>5 of 6</strong> ingredients</div>
+          <div class="match-bar-track"><div class="match-bar-fill" style="width:83%"></div></div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-card-top">
+            <span style="font-size:18px;">🇮🇳</span>
+            <span class="badge">Medium</span>
+          </div>
+          <div class="card-name">Chicken Tikka Masala</div>
+          <div class="card-desc">Charred chicken in a spiced tomato-cream sauce.</div>
+          <div class="match-label">You have <strong>4 of 7</strong> ingredients</div>
+          <div class="match-bar-track"><div class="match-bar-fill" style="width:57%"></div></div>
+        </div>
+
+        <div class="result-card">
+          <div class="result-card-top">
+            <span style="font-size:18px;">🇫🇷</span>
+            <span class="badge">Hard</span>
+          </div>
+          <div class="card-name">Coq au Vin</div>
+          <div class="card-desc">Braised chicken in red wine with mushrooms.</div>
+          <div class="match-label">You have <strong>3 of 8</strong> ingredients</div>
+          <div class="match-bar-track"><div class="match-bar-fill" style="width:37%"></div></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <p class="note">
+    · Results sorted by match % descending — best matches first<br>
+    · "You have X of Y ingredients" label always sits above the bar — never ambiguous<br>
+    · Clicking a result card navigates to the Recipe Detail page
+  </p>
+</div>
+
+</body>
+</html>

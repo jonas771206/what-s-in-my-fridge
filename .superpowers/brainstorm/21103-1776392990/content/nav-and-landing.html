@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nav + Landing Mockup</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #111; font-family: Inter, sans-serif; padding: 32px 24px; display: flex; flex-direction: column; gap: 40px; }
+
+  .label { font-family: Inter, sans-serif; font-size: 10px; font-weight: 600; letter-spacing: 2px; text-transform: uppercase; color: rgba(196,148,50,0.6); margin-bottom: 12px; }
+
+  /* ── NAV MOCKUP ── */
+  .nav-demo {
+    background: #0e0c09;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(196,148,50,0.12);
+  }
+  .nav-scrolled {
+    background: rgba(14,12,9,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 28px;
+    border-bottom: 1px solid rgba(196,148,50,0.10);
+  }
+  .nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .nav-logo-img {
+    width: 80px;
+    height: auto;
+    opacity: 0.92;
+  }
+  .nav-links {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+  }
+  .nav-link {
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,220,130,0.55);
+    text-decoration: none;
+    font-family: Inter, sans-serif;
+    letter-spacing: 0.1px;
+  }
+  .nav-link.active {
+    color: #f5e8c8;
+    position: relative;
+  }
+  .nav-link.active::after {
+    content: '';
+    display: block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: #C4943A;
+    margin: 3px auto 0;
+  }
+  .nav-sub {
+    padding: 10px 28px;
+    font-size: 10px;
+    color: rgba(255,220,130,0.3);
+    font-family: Inter, sans-serif;
+  }
+
+  /* ── LANDING MOCKUP ── */
+  .landing-demo {
+    position: relative;
+    background: #0e0c09;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid rgba(196,148,50,0.12);
+    min-height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Orbs */
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    animation: pulse 6s ease-in-out infinite;
+  }
+  .orb-1 {
+    width: 320px; height: 320px;
+    background: rgba(196,148,50,0.09);
+    top: -80px; left: 50%;
+    transform: translateX(-50%);
+    animation-delay: 0s;
+  }
+  .orb-2 {
+    width: 200px; height: 200px;
+    background: rgba(196,148,50,0.06);
+    bottom: 20px; left: 10%;
+    animation-delay: 2s;
+  }
+  .orb-3 {
+    width: 160px; height: 160px;
+    background: rgba(196,148,50,0.05);
+    bottom: 40px; right: 8%;
+    animation-delay: 4s;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.7; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.08); }
+  }
+  .orb-1 { animation: pulse1 6s ease-in-out infinite; }
+  @keyframes pulse1 {
+    0%, 100% { opacity: 0.7; transform: translateX(-50%) scale(1); }
+    50% { opacity: 1; transform: translateX(-50%) scale(1.08); }
+  }
+
+  /* Hero content */
+  .hero {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 16px;
+    padding: 48px 32px;
+    max-width: 480px;
+  }
+  .hero-logo {
+    width: 180px;
+    height: auto;
+    margin-bottom: 4px;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-style: italic;
+    font-weight: 400;
+    font-size: 42px;
+    line-height: 1.15;
+    color: #f5e8c8;
+    letter-spacing: -0.5px;
+  }
+  .hero-sub {
+    font-family: Inter, sans-serif;
+    font-weight: 300;
+    font-size: 15px;
+    color: rgba(255,220,130,0.50);
+    line-height: 1.6;
+    max-width: 300px;
+  }
+  .hero-ctas {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .cta-primary {
+    border: 1px solid rgba(196,148,50,0.55);
+    border-radius: 86px;
+    padding: 10px 24px;
+    font-size: 13px;
+    font-weight: 500;
+    color: #C4943A;
+    font-family: Inter, sans-serif;
+    background: rgba(196,148,50,0.06);
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+  .cta-primary:hover { opacity: 0.75; }
+  .cta-secondary {
+    border: 1px solid rgba(255,255,255,0.14);
+    border-radius: 86px;
+    padding: 10px 24px;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgba(255,220,130,0.55);
+    font-family: Inter, sans-serif;
+    background: transparent;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+  }
+  .cta-secondary:hover { opacity: 0.75; }
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <div>
+    <div class="label">Navigation — default state (on scroll)</div>
+    <div class="nav-demo">
+      <nav class="nav-scrolled">
+        <div class="nav-logo">
+          <img class="nav-logo-img" src="/Users/j/Documents/Whats_In_Your_Fridge_v2/Logo.jpeg" alt="Logo" onerror="this.style.display='none'; this.nextSibling.style.display='block'">
+          <span style="display:none; font-family:'Playfair Display',serif; font-style:italic; font-size:16px; color:#C4943A;">What's In Your Fridge</span>
+        </div>
+        <div class="nav-links">
+          <a class="nav-link active" href="#">Recipes</a>
+          <a class="nav-link" href="#">My Fridge</a>
+        </div>
+      </nav>
+      <div class="nav-sub">↑ Blurred + darkened on scroll · "Recipes" shown as active page (gold dot below)</div>
+    </div>
+  </div>
+
+  <!-- LANDING -->
+  <div>
+    <div class="label">Landing Page — full-screen hero</div>
+    <div class="landing-demo">
+      <!-- Ambient orbs -->
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+
+      <!-- Hero -->
+      <div class="hero">
+        <img class="hero-logo"
+          src="/Users/j/Documents/Whats_In_Your_Fridge_v2/Logo.jpeg"
+          alt="What's In Your Fridge"
+          onerror="this.style.display='none'; this.nextSibling.style.display='block'">
+        <div style="display:none; font-family:'Playfair Display',serif; font-style:italic; font-size:28px; color:#C4943A; margin-bottom:4px;">What's In Your Fridge</div>
+
+        <div class="hero-title">Discover recipes<br>from what you have.</div>
+        <div class="hero-sub">25 global recipes. No login. Just cook.</div>
+
+        <div class="hero-ctas">
+          <button class="cta-primary">Browse Recipes</button>
+          <button class="cta-secondary">Open My Fridge</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="font-family:Inter,sans-serif; font-size:11px; color:rgba(255,220,130,0.3); text-align:center; padding-bottom:8px;">
+    Orbs animate slowly — watch the top glow breathe. Tell me your thoughts in the terminal.
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//Users/j/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7/skills/brainstorming/**)",
+      "Read(//Users/j/.claude/plugins/cache/claude-plugins-official/superpowers/5.0.7/skills/subagent-driven-development/**)",
+      "Bash(npm create *)",
+      "Bash(cp /tmp/vite_temp/myapp/package.json /Users/j/Documents/Whats_In_Your_Fridge_v2/package.json)",
+      "Bash(cp /tmp/vite_temp/myapp/vite.config.js /Users/j/Documents/Whats_In_Your_Fridge_v2/vite.config.js)",
+      "Bash(cp /tmp/vite_temp/myapp/eslint.config.js /Users/j/Documents/Whats_In_Your_Fridge_v2/eslint.config.js)",
+      "Bash(cp -r /tmp/vite_temp/myapp/src /Users/j/Documents/Whats_In_Your_Fridge_v2/src)",
+      "Bash(cp -r /tmp/vite_temp/myapp/public /Users/j/Documents/Whats_In_Your_Fridge_v2/public)",
+      "Bash(npm install *)",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit -m ' *)",
+      "Bash(git commit *)"
+    ],
+    "additionalDirectories": [
+      "/private/tmp/vite_temp/myapp"
+    ]
+  }
+}
