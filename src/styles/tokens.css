@@ -1,1 +1,28 @@
-/* Design tokens — populated in Task 2 */
+:root {
+  /* Colours */
+  --bg: #0e0c09;
+  --surface: rgba(196, 148, 50, 0.06);
+  --border: rgba(196, 148, 50, 0.18);
+  --border-subtle: rgba(196, 148, 50, 0.08);
+  --gold: #C4943A;
+  --gold-glow: rgba(196, 148, 50, 0.07);
+  --text-primary: #f5e8c8;
+  --text-secondary: rgba(255, 220, 130, 0.50);
+  --text-muted: rgba(255, 220, 130, 0.35);
+
+  /* Typography */
+  --font-serif: 'Playfair Display', Georgia, serif;
+  --font-sans: 'Inter', system-ui, sans-serif;
+
+  /* Radii */
+  --radius-pill: 86px;
+  --radius-card: 14px;
+  --radius-panel: 10px;
+  --radius-chip: 6px;
+
+  /* Card depth */
+  --card-shadow: 0 0 28px rgba(196, 148, 50, 0.07), inset 0 1px 0 rgba(196, 148, 50, 0.10);
+
+  /* Motion */
+  --spring: cubic-bezier(0.16, 1, 0.3, 1);
+}
