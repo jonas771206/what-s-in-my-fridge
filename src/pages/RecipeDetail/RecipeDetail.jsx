@@ -1,4 +1,4 @@
-import { useParams, useLocation, useNavigate } from 'react-router-dom'
+import { useParams, useLocation, Link } from 'react-router-dom'
 import { recipes } from '../../data/recipes'
 import { scoreRecipe } from '../../utils/matching'
 import styles from './RecipeDetail.module.css'
@@ -6,7 +6,6 @@ import styles from './RecipeDetail.module.css'
 export default function RecipeDetail() {
   const { id } = useParams()
   const location = useLocation()
-  const navigate = useNavigate()
 
   const recipe = recipes.find(r => r.id === id)
   const fromFridge = location.state?.fromFridge ?? false
@@ -25,9 +24,9 @@ export default function RecipeDetail() {
   return (
     <div className={`${styles.page} page-enter`}>
       <div className={styles.breadcrumb}>
-        <a onClick={() => navigate(fromFridge ? '/fridge' : '/recipes')}>
+        <Link to={fromFridge ? '/fridge' : '/recipes'}>
           ← {fromFridge ? 'My Fridge' : 'Recipes'}
-        </a>
+        </Link>
         <span style={{ opacity: 0.4 }}>/</span>
         <span>{recipe.name}</span>
       </div>
