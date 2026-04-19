@@ -7,7 +7,9 @@ import authRoutes from './routes/auth.js'
 
 const app = express()
 
-app.use(cors({ origin: process.env.ALLOWED_ORIGIN || 'http://localhost:5173' }))
+app.use(cors({
+  origin: process.env.ALLOWED_ORIGIN || /^http:\/\/localhost:\d+$/,
+}))
 app.use(express.json())
 app.use(clerkMiddleware())
 
