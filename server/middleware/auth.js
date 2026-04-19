@@ -8,7 +8,7 @@ export function requireAuth(req, res, next) {
   next()
 }
 
-export function requireAdmin(req, res, next) {
+export function requireSignedIn(req, res, next) {
   const { userId } = getAuth(req)
   if (!userId) return res.status(401).json({ error: 'Unauthorized' })
   req.clerkUserId = userId
