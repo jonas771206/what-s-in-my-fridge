@@ -15,7 +15,7 @@ export default function App() {
 
   useEffect(() => {
     if (!isSignedIn) return
-    getToken().then(token => apiFetchAuth('/api/auth/sync', token, { method: 'POST' }))
+    getToken().then(token => apiFetchAuth('/api/auth/sync', token, { method: 'POST' })).catch(() => {})
   }, [isSignedIn])
 
   return (

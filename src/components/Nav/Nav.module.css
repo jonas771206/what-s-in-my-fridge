@@ -74,6 +74,7 @@
   font-weight: 500;
   color: var(--gold);
   background: transparent;
+  cursor: pointer;
   transition: opacity 0.15s ease;
 }
 
