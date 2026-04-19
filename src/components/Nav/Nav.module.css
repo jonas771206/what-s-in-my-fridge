@@ -59,3 +59,22 @@
 .link.active .dot {
   opacity: 1;
 }
+
+.authArea {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+}
+
+.signInBtn {
+  border: 1px solid rgba(196, 148, 50, 0.45);
+  border-radius: var(--radius-pill);
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gold);
+  background: transparent;
+  transition: opacity 0.15s ease;
+}
+
+.signInBtn:hover { opacity: 0.75; }
