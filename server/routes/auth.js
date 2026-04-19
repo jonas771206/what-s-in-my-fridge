@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { getAuth, createClerkClient } from '@clerk/express'
+import { createClerkClient } from '@clerk/express'
 import { pool } from '../db.js'
 import { requireAuth } from '../middleware/auth.js'
 
@@ -8,7 +8,7 @@ const router = Router()
 
 router.post('/sync', requireAuth, async (req, res) => {
   try {
-    const { userId } = getAuth(req)
+    const userId = req.clerkUserId
     const user = await clerkClient.users.getUser(userId)
     const email = user.emailAddresses[0]?.emailAddress ?? ''
     const displayName = user.firstName ?? ''
