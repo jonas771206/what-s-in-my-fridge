@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react'
-import { recipes } from '../../data/recipes'
+import { useState, useMemo, useEffect } from 'react'
+import { apiFetch } from '../../lib/api'
 import RecipeCard from '../../components/RecipeCard/RecipeCard'
 import styles from './BrowseRecipes.module.css'
 
@@ -10,6 +10,14 @@ const FLAG = { China:'🇨🇳', France:'🇫🇷', Greece:'🇬🇷', India:'�
 export default function BrowseRecipes() {
   const [search, setSearch] = useState('')
   const [country, setCountry] = useState('All')
+  const [recipes, setRecipes] = useState([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    apiFetch('/api/recipes')
+      .then(setRecipes)
+      .finally(() => setLoading(false))
+  }, [])
 
   const filtered = useMemo(() => {
     return recipes.filter(r => {
@@ -17,12 +25,14 @@ export default function BrowseRecipes() {
       const matchesCountry = country === 'All' || r.country === country
       return matchesSearch && matchesCountry
     })
-  }, [search, country])
+  }, [recipes, search, country])
+
+  if (loading) return <div className={styles.page}><p style={{ color: 'var(--text-secondary)', padding: 32 }}>Loading…</p></div>
 
   return (
     <div className={`${styles.page} page-enter`}>
       <h1 className={styles.title}>All Recipes</h1>
-      <p className={styles.subtitle}>25 dishes across 10 countries</p>
+      <p className={styles.subtitle}>{recipes.length} dishes across {COUNTRIES.length - 1} countries</p>
 
       <input
         className={styles.search}
