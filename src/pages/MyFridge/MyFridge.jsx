@@ -1,15 +1,23 @@
-import { useState, useRef } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { CATEGORIES, MEAT_CUTS, CUT_LABELS } from '../../data/ingredients'
 import { rankRecipes } from '../../utils/matching'
-import { recipes } from '../../data/recipes'
+import { apiFetch } from '../../lib/api'
 import RecipeCard from '../../components/RecipeCard/RecipeCard'
 import styles from './MyFridge.module.css'
 
 export default function MyFridge() {
   const [selectedKeys, setSelectedKeys] = useState(new Set())
   const [openCutMeat, setOpenCutMeat] = useState(null)
-  const [results, setResults] = useState(null)
-  const resultsRef = useRef(null)
+  const [allRecipes, setAllRecipes] = useState([])
+
+  useEffect(() => {
+    apiFetch('/api/recipes').then(setAllRecipes)
+  }, [])
+
+  const results = useMemo(
+    () => selectedKeys.size > 0 ? rankRecipes(allRecipes, [...selectedKeys]) : null,
+    [selectedKeys, allRecipes]
+  )
 
   function togglePlainIngredient(id) {
     setSelectedKeys(prev => {
@@ -34,14 +42,6 @@ export default function MyFridge() {
 
   function isMeatActive(meatId) {
     return MEAT_CUTS[meatId].some(cut => selectedKeys.has(`${meatId}-${cut}`))
-  }
-
-  function handleFind() {
-    const ranked = rankRecipes(recipes, [...selectedKeys])
-    setResults(ranked)
-    setTimeout(() => {
-      resultsRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    }, 50)
   }
 
   const totalSelected = selectedKeys.size
@@ -106,7 +106,10 @@ export default function MyFridge() {
       ))}
 
       {results && (
-        <div className={styles.results} ref={resultsRef}>
+        <div className={styles.results}>
+          <div className={styles.count}>
+            <strong>{totalSelected}</strong> ingredient{totalSelected !== 1 ? 's' : ''} selected
+          </div>
           <div className={styles.resultsTitle}>
             {results.length === 0
               ? 'No matching recipes — try adding more ingredients.'
@@ -126,18 +129,6 @@ export default function MyFridge() {
         </div>
       )}
 
-      <div className={styles.bottomBar}>
-        <div className={styles.count}>
-          <strong>{totalSelected}</strong> ingredient{totalSelected !== 1 ? 's' : ''} selected
-        </div>
-        <button
-          className={styles.findBtn}
-          onClick={handleFind}
-          disabled={totalSelected === 0}
-        >
-          Find Recipes →
-        </button>
-      </div>
     </div>
   )
 }
