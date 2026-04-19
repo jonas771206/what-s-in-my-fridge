@@ -1,23 +1,27 @@
+import { useState, useEffect } from 'react'
 import { useParams, useLocation, Link } from 'react-router-dom'
-import { recipes } from '../../data/recipes'
+import { apiFetch } from '../../lib/api'
 import { scoreRecipe } from '../../utils/matching'
 import styles from './RecipeDetail.module.css'
 
 export default function RecipeDetail() {
   const { id } = useParams()
   const location = useLocation()
+  const [recipe, setRecipe] = useState(null)
+  const [loading, setLoading] = useState(true)
 
-  const recipe = recipes.find(r => r.id === id)
+  useEffect(() => {
+    apiFetch(`/api/recipes/${id}`)
+      .then(setRecipe)
+      .catch(() => setRecipe(null))
+      .finally(() => setLoading(false))
+  }, [id])
+
   const fromFridge = location.state?.fromFridge ?? false
   const selected = location.state?.selected ?? []
 
-  if (!recipe) {
-    return (
-      <div style={{ padding: '48px 28px', color: 'var(--text-muted)' }}>
-        Recipe not found.
-      </div>
-    )
-  }
+  if (loading) return <div className={styles.page}><p style={{ color: 'var(--text-secondary)', padding: 32 }}>Loading…</p></div>
+  if (!recipe) return <div className={styles.page}><p style={{ color: 'var(--text-secondary)', padding: 32 }}>Recipe not found.</p></div>
 
   const matchResult = fromFridge ? scoreRecipe(recipe, selected) : null
 
