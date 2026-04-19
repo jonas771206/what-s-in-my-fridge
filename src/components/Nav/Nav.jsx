@@ -18,31 +18,33 @@ export default function Nav() {
       <NavLink to="/">
         <img src={logo} alt="What's In My Fridge" className={styles.logo} />
       </NavLink>
-      <div className={styles.links}>
-        <NavLink
-          to="/recipes"
-          className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}
-        >
-          Recipes
-          <span className={styles.dot} />
-        </NavLink>
-        <NavLink
-          to="/fridge"
-          className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}
-        >
-          My Fridge
-          <span className={styles.dot} />
-        </NavLink>
-      </div>
-      <div className={styles.authArea}>
-        <SignedOut>
-          <SignInButton mode="modal">
-            <button className={styles.signInBtn}>Sign in</button>
-          </SignInButton>
-        </SignedOut>
-        <SignedIn>
-          <UserButton afterSignOutUrl="/" />
-        </SignedIn>
+      <div className={styles.right}>
+        <div className={styles.links}>
+          <NavLink
+            to="/recipes"
+            className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}
+          >
+            Recipes
+            <span className={styles.dot} />
+          </NavLink>
+          <NavLink
+            to="/fridge"
+            className={({ isActive }) => `${styles.link} ${isActive ? styles.active : ''}`}
+          >
+            My Fridge
+            <span className={styles.dot} />
+          </NavLink>
+        </div>
+        <div className={styles.authArea}>
+          <SignedOut>
+            <SignInButton mode="modal">
+              <button className={styles.signInBtn}>Sign in</button>
+            </SignInButton>
+          </SignedOut>
+          <SignedIn>
+            <UserButton afterSignOutUrl="/" />
+          </SignedIn>
+        </div>
       </div>
     </nav>
   )

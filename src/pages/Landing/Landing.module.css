@@ -66,7 +66,7 @@
 }
 
 .logo {
-  width: 200px;
+  width: min(70vw, 600px);
   height: auto;
 }
 
@@ -121,3 +121,24 @@
 }
 
 .ctaSecondary:hover { opacity: 0.75; }
+
+.topRight {
+  position: absolute;
+  top: 20px;
+  right: 28px;
+  z-index: 10;
+}
+
+.signInBtn {
+  border: 1px solid rgba(196, 148, 50, 0.45);
+  border-radius: var(--radius-pill);
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--gold);
+  background: transparent;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+
+.signInBtn:hover { opacity: 0.75; }

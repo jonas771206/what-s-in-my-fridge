@@ -17,7 +17,7 @@
 }
 
 .logo {
-  height: 36px;
+  height: 48px;
   width: auto;
   display: block;
 }
@@ -60,8 +60,13 @@
   opacity: 1;
 }
 
+.right {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
 .authArea {
-  margin-left: auto;
   display: flex;
   align-items: center;
 }
