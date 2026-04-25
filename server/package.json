@@ -7,6 +7,7 @@
     "dev": "node --watch index.js",
     "migrate": "node scripts/migrate.js",
     "seed": "node scripts/seed.js",
+    "import:themealdb": "node scripts/import-themealdb.js",
     "test": "node --test routes/*.test.js"
   },
   "dependencies": {
