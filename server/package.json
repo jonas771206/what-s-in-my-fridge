@@ -8,6 +8,7 @@
     "migrate": "node scripts/migrate.js",
     "seed": "node scripts/seed.js",
     "import:themealdb": "node scripts/import-themealdb.js",
+    "backfill:flags": "node scripts/backfill-flags.js",
     "test": "node --test routes/*.test.js"
   },
   "dependencies": {
