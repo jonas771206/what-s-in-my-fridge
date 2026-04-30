@@ -44,6 +44,26 @@ async function fetchAllAreas() {
   return (meals ?? []).map(m => m.strArea)
 }
 
+async function fetchByCategory(category) {
+  const { meals } = await fetchJson(`${API_BASE}/filter.php?c=${encodeURIComponent(category)}`)
+  return meals ?? []
+}
+
+async function fetchByIngredient(ingredient) {
+  const { meals } = await fetchJson(`${API_BASE}/filter.php?i=${encodeURIComponent(ingredient)}`)
+  return meals ?? []
+}
+
+async function fetchAllCategories() {
+  const { meals } = await fetchJson(`${API_BASE}/list.php?c=list`)
+  return (meals ?? []).map(m => m.strCategory)
+}
+
+async function fetchAllIngredients() {
+  const { meals } = await fetchJson(`${API_BASE}/list.php?i=list`)
+  return (meals ?? []).map(m => m.strIngredient)
+}
+
 function extractIngredients(raw) {
   const out = []
   for (let i = 1; i <= 20; i++) {
