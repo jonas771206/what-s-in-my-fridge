@@ -214,5 +214,71 @@ for (const area of areas) {
   }
 }
 
+for (const category of categories) {
+  try {
+    const summaries = await fetchByCategory(category)
+    console.log(`  category "${category}": ${summaries.length} meals`)
+    for (const summary of summaries) {
+      const mealId = String(summary.idMeal)
+      if (seen.has(mealId)) continue
+      seen.add(mealId)
+      try {
+        const raw = await fetchById(mealId)
+        if (!raw) {
+          failed++
+          continue
+        }
+        const recipe = transformMeal(raw)
+        const inserted = await upsert(recipe)
+        if (inserted) {
+          created++
+          console.log(`  +    ${recipe.id}`)
+        } else {
+          skipped++
+        }
+      } catch (err) {
+        failed++
+        console.error(`  fail id=${mealId}: ${err.message}`)
+      }
+    }
+  } catch (err) {
+    failed++
+    console.error(`  fail category="${category}": ${err.message}`)
+  }
+}
+
+for (const ingredient of ingredients) {
+  try {
+    const summaries = await fetchByIngredient(ingredient)
+    console.log(`  ingredient "${ingredient}": ${summaries.length} meals`)
+    for (const summary of summaries) {
+      const mealId = String(summary.idMeal)
+      if (seen.has(mealId)) continue
+      seen.add(mealId)
+      try {
+        const raw = await fetchById(mealId)
+        if (!raw) {
+          failed++
+          continue
+        }
+        const recipe = transformMeal(raw)
+        const inserted = await upsert(recipe)
+        if (inserted) {
+          created++
+          console.log(`  +    ${recipe.id}`)
+        } else {
+          skipped++
+        }
+      } catch (err) {
+        failed++
+        console.error(`  fail id=${mealId}: ${err.message}`)
+      }
+    }
+  } catch (err) {
+    failed++
+    console.error(`  fail ingredient="${ingredient}": ${err.message}`)
+  }
+}
+
 console.log(`\nImported ${created}, skipped ${skipped}, failed ${failed}`)
 await pool.end()
