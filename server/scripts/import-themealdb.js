@@ -139,6 +139,7 @@ for (const id of ids) {
       failed++
       continue
     }
+    seen.add(String(raw.idMeal))
     const recipe = transformMeal(raw)
     const inserted = await upsert(recipe)
     if (inserted) {
@@ -163,6 +164,7 @@ for (const name of names) {
       continue
     }
     for (const raw of meals) {
+      seen.add(String(raw.idMeal))
       const recipe = transformMeal(raw)
       const inserted = await upsert(recipe)
       if (inserted) {
@@ -184,8 +186,11 @@ for (const area of areas) {
     const summaries = await fetchByArea(area)
     console.log(`  area "${area}": ${summaries.length} meals`)
     for (const summary of summaries) {
+      const mealId = String(summary.idMeal)
+      if (seen.has(mealId)) continue
+      seen.add(mealId)
       try {
-        const raw = await fetchById(summary.idMeal)
+        const raw = await fetchById(mealId)
         if (!raw) {
           failed++
           continue
@@ -200,7 +205,7 @@ for (const area of areas) {
         }
       } catch (err) {
         failed++
-        console.error(`  fail id=${summary.idMeal}: ${err.message}`)
+        console.error(`  fail id=${mealId}: ${err.message}`)
       }
     }
   } catch (err) {
