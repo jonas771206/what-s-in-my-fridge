@@ -119,7 +119,13 @@ const input = JSON.parse(await readFile(INPUT_FILE, 'utf8'))
 const ids = Array.isArray(input.ids) ? input.ids : []
 const names = Array.isArray(input.names) ? input.names : []
 const areasInput = Array.isArray(input.areas) ? input.areas : []
+const categoriesInput = Array.isArray(input.categories) ? input.categories : []
+const ingredientsInput = Array.isArray(input.ingredients) ? input.ingredients : []
 const areas = areasInput.includes('*') ? await fetchAllAreas() : areasInput
+const categories = categoriesInput.includes('*') ? await fetchAllCategories() : categoriesInput
+const ingredients = ingredientsInput.includes('*') ? await fetchAllIngredients() : ingredientsInput
+
+const seen = new Set()
 
 let created = 0
 let skipped = 0
