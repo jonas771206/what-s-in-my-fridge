@@ -44,6 +44,26 @@ async function fetchAllAreas() {
   return (meals ?? []).map(m => m.strArea)
 }
 
+async function fetchByCategory(category) {
+  const { meals } = await fetchJson(`${API_BASE}/filter.php?c=${encodeURIComponent(category)}`)
+  return meals ?? []
+}
+
+async function fetchByIngredient(ingredient) {
+  const { meals } = await fetchJson(`${API_BASE}/filter.php?i=${encodeURIComponent(ingredient)}`)
+  return meals ?? []
+}
+
+async function fetchAllCategories() {
+  const { meals } = await fetchJson(`${API_BASE}/list.php?c=list`)
+  return (meals ?? []).map(m => m.strCategory)
+}
+
+async function fetchAllIngredients() {
+  const { meals } = await fetchJson(`${API_BASE}/list.php?i=list`)
+  return (meals ?? []).map(m => m.strIngredient)
+}
+
 function extractIngredients(raw) {
   const out = []
   for (let i = 1; i <= 20; i++) {
@@ -99,7 +119,13 @@ const input = JSON.parse(await readFile(INPUT_FILE, 'utf8'))
 const ids = Array.isArray(input.ids) ? input.ids : []
 const names = Array.isArray(input.names) ? input.names : []
 const areasInput = Array.isArray(input.areas) ? input.areas : []
+const categoriesInput = Array.isArray(input.categories) ? input.categories : []
+const ingredientsInput = Array.isArray(input.ingredients) ? input.ingredients : []
 const areas = areasInput.includes('*') ? await fetchAllAreas() : areasInput
+const categories = categoriesInput.includes('*') ? await fetchAllCategories() : categoriesInput
+const ingredients = ingredientsInput.includes('*') ? await fetchAllIngredients() : ingredientsInput
+
+const seen = new Set()
 
 let created = 0
 let skipped = 0
@@ -113,6 +139,7 @@ for (const id of ids) {
       failed++
       continue
     }
+    seen.add(String(raw.idMeal))
     const recipe = transformMeal(raw)
     const inserted = await upsert(recipe)
     if (inserted) {
@@ -137,6 +164,7 @@ for (const name of names) {
       continue
     }
     for (const raw of meals) {
+      seen.add(String(raw.idMeal))
       const recipe = transformMeal(raw)
       const inserted = await upsert(recipe)
       if (inserted) {
@@ -158,8 +186,11 @@ for (const area of areas) {
     const summaries = await fetchByArea(area)
     console.log(`  area "${area}": ${summaries.length} meals`)
     for (const summary of summaries) {
+      const mealId = String(summary.idMeal)
+      if (seen.has(mealId)) continue
+      seen.add(mealId)
       try {
-        const raw = await fetchById(summary.idMeal)
+        const raw = await fetchById(mealId)
         if (!raw) {
           failed++
           continue
@@ -174,12 +205,78 @@ for (const area of areas) {
         }
       } catch (err) {
         failed++
-        console.error(`  fail id=${summary.idMeal}: ${err.message}`)
+        console.error(`  fail id=${mealId}: ${err.message}`)
       }
     }
   } catch (err) {
     failed++
     console.error(`  fail area="${area}": ${err.message}`)
+  }
+}
+
+for (const category of categories) {
+  try {
+    const summaries = await fetchByCategory(category)
+    console.log(`  category "${category}": ${summaries.length} meals`)
+    for (const summary of summaries) {
+      const mealId = String(summary.idMeal)
+      if (seen.has(mealId)) continue
+      seen.add(mealId)
+      try {
+        const raw = await fetchById(mealId)
+        if (!raw) {
+          failed++
+          continue
+        }
+        const recipe = transformMeal(raw)
+        const inserted = await upsert(recipe)
+        if (inserted) {
+          created++
+          console.log(`  +    ${recipe.id}`)
+        } else {
+          skipped++
+        }
+      } catch (err) {
+        failed++
+        console.error(`  fail id=${mealId}: ${err.message}`)
+      }
+    }
+  } catch (err) {
+    failed++
+    console.error(`  fail category="${category}": ${err.message}`)
+  }
+}
+
+for (const ingredient of ingredients) {
+  try {
+    const summaries = await fetchByIngredient(ingredient)
+    console.log(`  ingredient "${ingredient}": ${summaries.length} meals`)
+    for (const summary of summaries) {
+      const mealId = String(summary.idMeal)
+      if (seen.has(mealId)) continue
+      seen.add(mealId)
+      try {
+        const raw = await fetchById(mealId)
+        if (!raw) {
+          failed++
+          continue
+        }
+        const recipe = transformMeal(raw)
+        const inserted = await upsert(recipe)
+        if (inserted) {
+          created++
+          console.log(`  +    ${recipe.id}`)
+        } else {
+          skipped++
+        }
+      } catch (err) {
+        failed++
+        console.error(`  fail id=${mealId}: ${err.message}`)
+      }
+    }
+  } catch (err) {
+    failed++
+    console.error(`  fail ingredient="${ingredient}": ${err.message}`)
   }
 }
 

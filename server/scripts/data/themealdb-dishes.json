@@ -1,5 +1,7 @@
 {
   "ids": [],
   "names": [],
-  "areas": ["*"]
+  "areas": ["*"],
+  "categories": [],
+  "ingredients": []
 }
